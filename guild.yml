@@ -1,0 +1,34 @@
+train-sample:
+  description: Train on ldc93s1 sample data
+  main: DeepSpeech
+        --noshow_progressbar
+        --train_files data/ldc93s1/ldc93s1.csv
+        --test_files data/ldc93s1/ldc93s1.csv
+        --train_batch_size ${batch_size}
+        --test_batch_size ${batch_size}
+        --n_hidden 100
+        --checkpoint_dir checkpoints
+        --log_dir .
+        --export_dir model
+        --summary_dir .
+  flags:
+    epochs:
+      description: Training epochs
+      default: 200
+    batch_size:
+      description: Training and test batch size
+      default: 1
+      arg-skip: yes
+  flags-import: no
+  flags-dest: args
+
+  # Output scalars below aren't needed because the training script
+  # writes TF event summaries. If we wanted to capture output for
+  # epoch loss, the configuration below is how we could specify it.
+
+  #output-scalars:
+  #  - step: 'Finished training epoch (\value)'
+  #  - loss: 'loss: (\value)'
+
+  requires:
+    - file: data
